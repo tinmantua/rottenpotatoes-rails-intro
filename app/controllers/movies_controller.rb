@@ -11,6 +11,14 @@ class MoviesController < ApplicationController
   end
 
   def index
+      if params[:sort]
+      session[:sort] = params[:sort]
+      @movies = Movie.all.order(session[:sort])
+    elsif
+      @movies = Movie.all.order(session[:sort])
+    else 
+      @movies.all
+    end
     @movies = Movie.all
   end
 
