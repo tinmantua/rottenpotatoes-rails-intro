@@ -11,13 +11,24 @@ class MoviesController < ApplicationController
   end
 
   def index
-    if params[:sort]
-      @movies = Movie.order("#{params[:sort]} asc")
+    
+    @all_ratings = ['G', 'PG', 'PG-13', 'R']
+    session[:sort] = params[:sort]
+    session[:ratings] = params[:ratings]
+    
+    if session[:sort]
+      @movies = Movie.order("#{session[:sort]} asc")
     else 
       @movies = Movie.all
     end
+    
+    if session[:ratings]
+      @movies = Movie.where({rating: session[:ratings].keys})
+    end
+    
+    
   end
-
+  
   def new
     # default: render 'new' template
   end
